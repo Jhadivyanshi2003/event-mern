@@ -14,23 +14,24 @@ jobs:
 
     services:
       mongo:
-        image: mongo:7.0.11-rc-nanoserver-sac2016
+        image: mongo:6
         ports:
           - 27017:27017
         options: >-
-          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'" 
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 15
+          --health-retries 5
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
+          cache: 'npm'
 
       - name: Install backend dependencies
         working-directory: ./backend
