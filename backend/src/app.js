@@ -1,3 +1,4 @@
+HEAD
 // CORS configuration - more permissive during initial setup
 const corsOptions = {
   origin: function(origin, callback) {
@@ -28,3 +29,26 @@ app.use(cors(corsOptions));
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
+=======
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const eventRoutes = require('./routes/events');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost:27017/event-management', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+app.use('/api/events', eventRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+>>>>>>> c61c29ac98085fbc79dcf4fd917a82174dfe299b
