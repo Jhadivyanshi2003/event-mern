@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/app.js"
+    }
+  ],
+  "env": {
+    "MONGO_URI": "mongodb+srv://sahuabhit27:abhit@eventnup.vab810s.mongodb.net/event-management"
+  }
+} 

@@ -19,6 +19,11 @@ app.use(cors({
 // Middleware
 app.use(express.json());
 
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Server is running' });
+});
+
 // Database connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/event-management', {
   useNewUrlParser: true,
