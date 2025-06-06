@@ -1,54 +1,52 @@
-HEAD
-// CORS configuration - more permissive during initial setup
-const corsOptions = {
-  origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl requests)
-    if(!origin) return callback(null, true);
-    
-    // List of allowed origins - update after frontend deployment
-    const allowedOrigins = [
-      'http://localhost:3000',  // Local development
-      'https://localhost:3000', // Local development with HTTPS
-      // You'll add your frontend URL here after deployment
-    ];
-    
-    if(allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-
-// Middleware
-app.use(cors(corsOptions));
-
-// Database connection - Remove deprecated options
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
-=======
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const eventRoutes = require('./routes/events');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
-app.use(cors());
+// CORS configuration
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Middleware
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/event-management', {
+// Database connection
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/event-management', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Routes
+app.use('/api/events', eventRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: err.message
+  });
 });
 
-app.use('/api/events', eventRoutes);
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Not Found',
+    message: 'The requested resource was not found'
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
->>>>>>> c61c29ac98085fbc79dcf4fd917a82174dfe299b
