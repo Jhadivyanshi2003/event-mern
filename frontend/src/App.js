@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 function App() {
   return (
     <div>
-      <h1>Event Management System</h1>
+      <h1>EVENT Management System</h1>
       <HomePage />
     </div>
   );
