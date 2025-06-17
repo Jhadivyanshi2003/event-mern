@@ -117,13 +117,15 @@ export default function HomePage() {
       {message && <div className="success-message">{message}</div>}
       {error && <div className="error-message">{error}</div>}
       <h2>Events</h2>
-      <input
-        type="text"
-        placeholder="Search events..."
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        style={{ marginBottom: '20px', padding: '8px', width: '60%' }}
-      />
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search events..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="search-input"
+        />
+      </div>
       <form onSubmit={handleSubmit}>
         <input 
           name="name" 
