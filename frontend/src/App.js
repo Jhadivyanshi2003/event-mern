@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
+    <>
     <div>
       <h1>EVENT Management System</h1>
       <HomePage />
@@ -28,6 +29,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    </>
   );
 }
 
