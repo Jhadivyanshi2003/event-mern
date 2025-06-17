@@ -10,6 +10,10 @@ import Footer from './components/Footer';
 
 function App() {
   return (
+    <div>
+      <h1>EVENT Management System</h1>
+      <HomePage />
+    </div>
     <Router>
       <div className="app">
         <Navbar />
